@@ -16,11 +16,11 @@
 			<div id="rent-result">
 				<p class="success">
                     <c:choose>
-                        <c:when test="${rentalResult}">
-                                                        정상적으로 대여가 되었습니다.
+                        <c:when test="${reserveResult}">
+                                                        정상적으로 예약이 되었습니다.
                         </c:when>
                         <c:otherwise>
-                                                        해당되는 상품은 현재 대여중입니다.
+                                                        예약이 불가능합니다.
                         </c:otherwise>
                     </c:choose>
 					<br><br>

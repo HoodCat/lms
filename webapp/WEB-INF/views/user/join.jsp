@@ -40,8 +40,8 @@
 					
 					<fieldset>
 						<legend>성별</legend>
-						<label>여</label> <input type="radio" name="gender" value="female" checked="checked">
-						<label>남</label> <input type="radio" name="gender" value="male">
+						<label>여</label> <input type="radio" name="gender" value="FEMALE" checked="checked">
+						<label>남</label> <input type="radio" name="gender" value="MALE">
 					</fieldset>
 					
 					<fieldset>
