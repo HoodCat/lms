@@ -20,12 +20,14 @@ public class MainController {
 	@RequestMapping( { "", "/main" } )
 	public String index(
 	        @RequestParam(value="page", required=false, defaultValue="0")Integer page,
+	        @RequestParam(value="kwd", required=false, defaultValue="")String keyword,
 	        Model model ) {
 //	    itemService.initData();
-	    model.addAttribute("itemList", itemService.getItemList(page));
+	    model.addAttribute("itemList", itemService.getItemList(page, keyword));
 	    model.addAttribute("totalCount", itemService.getTotalCount());
 	    model.addAttribute("totalPage", itemService.getTotalPage());
 	    model.addAttribute("page", page);
+	    model.addAttribute("kwd", keyword);
 		return "main/index";
 	}
 	

@@ -123,9 +123,19 @@ public class ItemService {
     }
     
     public List<Map<String, Object>> getItemList(int page) { 
+        return getItemList(0, "");
+    }
+    
+    public List<Map<String, Object>> getItemList(int page, String keyword) { 
         List<Map<String, Object>> resultList = new ArrayList<>();
         PageRequest pageRequest = new PageRequest(page, 5, Direction.DESC, "regDate");
-        Page<Item> content = itemRepository.findAll(pageRequest);
+        Page<Item> content = null;
+        
+        if("".equals(keyword)) {
+            content = itemRepository.findAll(pageRequest);
+        } else {
+            content = itemRepository.findByTitleContaining(keyword, pageRequest);
+        }
 
         totalCount = content.getTotalElements();
         totalPage = content.getTotalPages();

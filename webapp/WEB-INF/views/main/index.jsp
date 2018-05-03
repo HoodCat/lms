@@ -6,13 +6,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>LMS</title>
-  <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <link href="${pageContext.request.contextPath }/assets/css/main.css" rel="stylesheet" type="text/css">
-  <script src="${pageContext.servletContext.contextPath}/assets/jquery/jquery-1.9.0.js" type="text/javascript"></script>
-  <script type="text/javascript">
-  
-  </script>
+<title>LMS</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link href="${pageContext.request.contextPath }/assets/css/main.css"
+  rel="stylesheet" type="text/css">
+<script
+  src="${pageContext.servletContext.contextPath}/assets/jquery/jquery-1.9.0.js"
+  type="text/javascript"></script>
+<script type="text/javascript">
+	
+</script>
 </head>
 <body>
   <div id="container">
@@ -21,8 +24,8 @@
       <div id="board">
         <form id="search_form"
           action="${pageContext.request.contextPath }" method="get">
-          <input type="text" id="kwd" name="kwd" value=""> <input
-            type="submit" value="찾기">
+          <input type="text" id="kwd" name="kwd" value="${kwd}">
+          <input type="submit" value="찾기">
         </form>
         <table class="tbl-ex">
           <tr>
@@ -36,33 +39,52 @@
               <td>${(totalCount - (5*page)) - status.index }</td>
               <td>${item.title}</td>
               <td>${item.category}</td>
-              <td>
-                <a href="${pageContext.servletContext.contextPath }/rent?itemNo=${item.no}" class="btn">대여</a> 
-                <a href="${pageContext.servletContext.contextPath }/reserve?itemNo=${item.no}" class="btn">예약</a>
-              </td>
+              <td><a
+                href="${pageContext.servletContext.contextPath }/rent?itemNo=${item.no}"
+                class="btn">대여</a> <a
+                href="${pageContext.servletContext.contextPath }/reserve?itemNo=${item.no}"
+                class="btn">예약</a></td>
             </tr>
           </c:forEach>
         </table>
         <div class="pager">
           <ul>
             <c:if test="${page gt 0 }">
-              <li><a
-                href="${pageContext.servletContext.contextPath }/main?page=${page-1}">◀</a></li>
+              <c:url value="/main" var="prevPage">
+                <c:if test="${not empty kwd or not kwd eq '' }">
+                  <c:param name="kwd" value="${kwd}" />
+                </c:if>
+                <c:param name="page" value="${page-1}" />
+              </c:url>
+              <li><a href="${prevPage}">◀</a></li>
             </c:if>
-            <c:forEach begin="0" end="${totalPage - 1}" var="no">
+<%--             <c:forEach begin="0" end="${totalPage - 1}" var="no"> --%>
+            <fmt:parseNumber var="mok" integerOnly="true" value="${page/5}"/>
+            <c:set var="endPage" value="${(totalPage-1) < (mok*5 + 4) ? (totalPage-1) : (mok*5 + 4)}"/>
+            <c:forEach begin="${mok*5}" end="${endPage}" var="no">
               <c:choose>
                 <c:when test="${page == no}">
                   <li class="selected">${no+1}</li>
                 </c:when>
                 <c:otherwise>
-                  <li><a
-                    href="${pageContext.servletContext.contextPath}/main?page=${no}">${no+1}</a></li>
+                  <c:url value="/main" var="pageNo">
+                    <c:if test="${not empty kwd or not kwd eq ''}">
+                      <c:param name="kwd" value="${kwd}" />
+                    </c:if>
+                    <c:param name="page" value="${no}" />
+                  </c:url>
+                  <li><a href="${pageNo}">${no+1}</a></li>
                 </c:otherwise>
               </c:choose>
             </c:forEach>
             <c:if test="${page lt totalPage-1 }">
-              <li><a
-                href="${pageContext.servletContext.contextPath}/main?page=${page+1}">▶</a></li>
+              <c:url value="/main" var="nextPage">
+                <c:if test="${not empty kwd or not kwd eq ''}">
+                  <c:param name="kwd" value="${kwd}" />
+                </c:if>
+                <c:param name="page" value="${page+1}" />
+              </c:url>
+              <li><a href="${nextPage}">▶</a></li>
             </c:if>
           </ul>
         </div>

@@ -12,6 +12,11 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import com.cafe24.lms.domain.enumeration.Gender;
 import com.cafe24.lms.domain.enumeration.Role;
@@ -23,12 +28,18 @@ public class User {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long no;
 	
+    @NotEmpty
+    @Length(min=2, max=5)
     @Column(name="name", nullable=false, length=50)
 	private String name;
     
+    @NotEmpty
+    @Email
     @Column(name="email", nullable=false)
 	private String email;
     
+    @NotEmpty
+    @Pattern(regexp="^[0-9a-zA-z]{4,12}$")
     @Column(name="password", nullable=false, length=64)
 	private String password;
     

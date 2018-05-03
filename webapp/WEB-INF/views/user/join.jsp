@@ -25,18 +25,31 @@
 					
 					<label class="block-label" for="name"><spring:message code="name" text="이름"/></label>
 					<input id="name" name="name" type="text" value="${user.name }">
-
+                    <p style="padding:0; font-weight:bold; text-align:left; color:#F00;">
+                        <form:errors path="name"/>
+                    </p>
 
 					<label class="block-label" for="email">이메일</label>
 					<form:input path="email"/>
 					<img id="check-image" src="${pageContext.request.contextPath }/assets/images/email-check.png" style="display:none"/>
 					<input id="check-button" type="button" value="중복체크" style="display:;">
-					<p style="margin:0; padding:0; color:red; text-align:left">
-						<form:errors path="email" />		
-					</p>
+					<p style="padding:0; font-weight:bold; text-align:left; color:#F00;">
+                        <form:errors path="email"/>
+                    </p>
 					
 					<label class="block-label">패스워드</label>
 					<form:password path="password" />
+                    <spring:hasBindErrors name="user">
+                       <c:if test="${errors.hasFieldErrors('password') }">
+                         <p style="padding:0; text-align:left; color:red;">
+                            <strong>
+                                <spring:message 
+                                  code="${errors.getFieldError( 'password' ).codes[0] }" 
+                                  text="${errors.getFieldError( 'password' ).defaultMessage }"/>
+                            </strong>
+                         </p>
+                       </c:if>
+                    </spring:hasBindErrors>
 					
 					<fieldset>
 						<legend>성별</legend>
