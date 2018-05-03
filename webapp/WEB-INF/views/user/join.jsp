@@ -7,9 +7,73 @@
 <!doctype html>
 <html>
 <head>
-<title>mysite</title>
+<title>lms</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <link href="${pageContext.servletContext.contextPath }/assets/css/user.css" rel="stylesheet" type="text/css">
+<script src="${pageContext.servletContext.contextPath}/assets/js/jquery/jquery-1.9.0.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(function() {
+	var emailChecked = false;
+	
+	$("#email").keypress(function(event){
+		if(emailChecked) {
+            $("#check-image").css("display","none");
+            $("#check-button").css("display","initial");
+            emailChecked = false;
+        }
+        return;
+	});
+	
+    $("#check-button").click(function() {
+        var email = $("#email").val();
+        if (email == "") {
+        	alert("이메일을 입력해주세요");
+            return;
+        }
+
+        $.ajax({
+            url : "${pageContext.servletContext.contextPath}/api/user/checkemail",
+            type : "post",
+            data : {"email": email},
+            dataType:"json",
+            success : function(response) {
+                if(response.result != "success") {
+                    console.log(response.message);
+                    return;
+                }
+                
+                if(response.data == "exist") {
+                    alert("이미 사용 중인 이메일 입니다.");
+                    $("#email").val("").focus();
+                    return;
+                }
+                
+                $("#check-image").css("display","initial");
+                $("#check-button").css("display","none");
+                emailChecked = true;
+                return;
+            },
+            error : function(xhr, status, e) {
+                console.error(status + "+" + e);
+            }
+        });
+    });
+    
+    $("#join-form").submit(function(event){
+    	if(emailChecked == false) {
+    		event.preventDefault();
+    		alert("이메일을 체크하세요.")
+    		return;
+    	}
+    	
+    	if($("#agree-prov").is(":checked") == false) {
+    		event.preventDefault();
+    		alert("약관에 동의해주세요.")
+    		return;
+    	}
+    });
+});
+</script>
 </head>
 <body>
 	<div id="container">
@@ -30,8 +94,8 @@
                     </p>
 
 					<label class="block-label" for="email">이메일</label>
-					<form:input path="email"/>
-					<img id="check-image" src="${pageContext.request.contextPath }/assets/images/email-check.png" style="display:none"/>
+					<form:input id="email" path="email"/>
+					<img id="check-image" src="${pageContext.servletContext.contextPath }/assets/images/email-check.png" style="display:none"/>
 					<input id="check-button" type="button" value="중복체크" style="display:;">
 					<p style="padding:0; font-weight:bold; text-align:left; color:#F00;">
                         <form:errors path="email"/>

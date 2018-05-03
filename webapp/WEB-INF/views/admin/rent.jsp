@@ -41,17 +41,19 @@
               <li><a
                 href="${pageContext.servletContext.contextPath }/admin/rent?page=${page-1}">◀</a></li>
             </c:if>
-            <c:forEach begin="0" end="${totalPage - 1}" var="no">
-              <c:choose>
-                <c:when test="${page == no}">
-                  <li class="selected">${no+1}</li>
-                </c:when>
-                <c:otherwise>
-                  <li><a
-                    href="${pageContext.servletContext.contextPath}/admin/rent?page=${no}">${no+1}</a></li>
-                </c:otherwise>
-              </c:choose>
-            </c:forEach>
+            <c:if test="${totalPage gt 0 }">
+              <c:forEach begin="0" end="${totalPage - 1}" var="no">
+                <c:choose>
+                  <c:when test="${page == no}">
+                    <li class="selected">${no+1}</li>
+                  </c:when>
+                  <c:otherwise>
+                    <li><a
+                      href="${pageContext.servletContext.contextPath}/admin/rent?page=${no}">${no+1}</a></li>
+                  </c:otherwise>
+                </c:choose>
+              </c:forEach>
+            </c:if>
             <c:if test="${page lt totalPage-1 }">
               <li><a
                 href="${pageContext.servletContext.contextPath}/admin/rent?page=${page+1}">▶</a></li>

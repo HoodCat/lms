@@ -31,5 +31,7 @@ public class UserService {
         return userRepository.findByEmailAndPassword(email, password);
     }
     
-    
+    public boolean isExist(String email) {
+        return userRepository.existsByEmail(email);
+    }
 }

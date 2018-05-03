@@ -28,7 +28,7 @@ public class MainController {
 	    model.addAttribute("totalPage", itemService.getTotalPage());
 	    model.addAttribute("page", page);
 	    model.addAttribute("kwd", keyword);
-		return "main/index";
+		return "main/index"; 
 	}
 	
 	@RequestMapping( "/rent" )
