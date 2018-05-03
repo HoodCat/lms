@@ -144,6 +144,7 @@ public class ItemService {
             Map<String, Object> entry = new HashMap<>();
             entry.put("no", item.getNo());
             entry.put("title", item.getTitle());
+            entry.put("status", item.getStatus());
             if(item instanceof Book) {
                 Book bookItem = (Book)item;
                 entry.put("category", "도서(" + bookItem.getBookCategory().getName() + ")");

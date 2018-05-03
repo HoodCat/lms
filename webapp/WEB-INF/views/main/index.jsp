@@ -39,11 +39,16 @@
               <td>${(totalCount - (5*page)) - status.index }</td>
               <td>${item.title}</td>
               <td>${item.category}</td>
-              <td><a
-                href="${pageContext.servletContext.contextPath }/rent?itemNo=${item.no}"
-                class="btn">대여</a> <a
-                href="${pageContext.servletContext.contextPath }/reserve?itemNo=${item.no}"
-                class="btn">예약</a></td>
+              <td>
+                <c:choose>
+                  <c:when test="${item.status == 'LENDABLE'}">
+                    <a href="${pageContext.servletContext.contextPath }/rent?itemNo=${item.no}" class="btn">대여</a> 
+                  </c:when>
+                  <c:when test="${item.status == 'LENT'}">
+                    <a href="${pageContext.servletContext.contextPath }/reserve?itemNo=${item.no}" class="btn">예약</a>
+                  </c:when>
+                </c:choose>
+              </td>
             </tr>
           </c:forEach>
         </table>
